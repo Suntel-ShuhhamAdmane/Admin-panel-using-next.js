@@ -224,7 +224,15 @@ const Dashboard = () => {
     )
     : users;
 
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const recordsPerPage = 10;
+  
+    // Calculate total pages
+    const totalPages = Math.ceil(users.length / recordsPerPage);
+  
+    // Get current page's data
+    const startIndex = (currentPage - 1) * recordsPerPage;
+    const paginatedUsers = users.slice(startIndex, startIndex + recordsPerPage);
 
   return (
     <div className="w-3/4 p-5 ml-80 bg-white-800">
@@ -251,12 +259,12 @@ const Dashboard = () => {
 
       <h2 className="text-xl text-black font-bold mt-5">User List</h2>
       <div className="w-full mt-10 ml-0">
-        {/* 🔹 Search Component aligned to the left */}
+        
 
 
         {/* User List Table */}
         <div className="flex justify-between items-center mt-4 w-full">
-          {/* 🔹 Search Component on the left */}
+          {/*  Search Component on the left */}
           <div className="w-1/2 mr-4">
             <SearchComponent
               searchQuery={searchQuery}
@@ -265,7 +273,7 @@ const Dashboard = () => {
             />
           </div>
 
-          {/* 🔹 Three buttons on the right (No changes) */}
+          {/*  Three buttons on the right (No changes) */}
           <div className="flex items-center space-x-4">
             <DownloadCSV />
             <CSVUpload />
@@ -278,91 +286,71 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <table className="w-full border p-4 mb-16">
-          <thead>
-            <tr>
-              <th
-                className="p-2 text-black border cursor-pointer text-left"
-                onClick={() => handleSort("id")}
-              >
-                <span className="flex items-center justify-between">
-                  ID
-                  {getSortIcon("id")}
-                </span>
-              </th>
-              <th
-                className="p-2 text-black border cursor-pointer text-left"
-                onClick={() => handleSort("name")}
-              >
-                <span className="flex items-center justify-between">
-                  Name
-                  {getSortIcon("name")}
-                </span>
-              </th>
-              <th
-                className="p-2 text-black border cursor-pointer text-left"
-                onClick={() => handleSort("email")}
-              >
-                <span className="flex items-center justify-between">
-                  Email
-                  {getSortIcon("email")}
-                </span>
-              </th>
-              <th
-                className="p-2 text-black border cursor-pointer text-left"
-                onClick={() => handleSort("status")}
-              >
-                <span className="flex items-center justify-between">
-                  Status
-                  {getSortIcon("status")}
-                </span>
-              </th>
-              <th className="p-2 text-black border">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredUsers.length > 0 ? (
-              filteredUsers.map((user) => (
-                <tr key={user.id} className="text-center ">
-                  <td className="p-2 text-black border">{user.id}</td>
-                  <td className="p-2 text-black border">{user.name}</td>
-                  <td className="p-2 text-black border">{user.email}</td>
-                  <td className="p-2 text-black border">{user.status}</td>
-                  <td className="p-2 text-black border">
-                    <button
-                      onClick={() => handleEdit(user)}
-                      className="bg-blue-300 text-white px-2 py-1 rounded mr-2"
-                    >
-                      <PencilIcon className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        setUserIdToDelete(user.id);
-                        setShowModal(true);
-                      }}
-                      className="bg-red-400 text-white px-2 py-1 rounded"
-                    >
-                      <TrashIcon className="h-5 w-5" />
-                    </button>
-
-                    {/* Confirmation Modal */}
-                    <ConfirmDeleteModal
-                      show={showModal}
-                      onConfirm={handleConfirmDelete}
-                      onCancel={handleCancelDelete}
-                    />
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="p-4 text-black text-center">
-                  No users found
+        <table className="w-full border p-4 mb-4">
+        <thead>
+          <tr>
+            <th className="p-2 text-black border cursor-pointer text-left" onClick={() => handleSort("id")}>
+              <span className="flex items-center justify-between">ID {getSortIcon("id")}</span>
+            </th>
+            <th className="p-2 text-black border cursor-pointer text-left" onClick={() => handleSort("name")}>
+              <span className="flex items-center justify-between">Name {getSortIcon("name")}</span>
+            </th>
+            <th className="p-2 text-black border cursor-pointer text-left" onClick={() => handleSort("email")}>
+              <span className="flex items-center justify-between">Email {getSortIcon("email")}</span>
+            </th>
+            <th className="p-2 text-black border cursor-pointer text-left" onClick={() => handleSort("status")}>
+              <span className="flex items-center justify-between">Status {getSortIcon("status")}</span>
+            </th>
+            <th className="p-2 text-black border">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {paginatedUsers.length > 0 ? (
+            paginatedUsers.map((user) => (
+              <tr key={user.id} className="text-center">
+                <td className="p-2 text-black border">{user.id}</td>
+                <td className="p-2 text-black border">{user.name}</td>
+                <td className="p-2 text-black border">{user.email}</td>
+                <td className="p-2 text-black border">{user.status}</td>
+                <td className="p-2 text-black border">
+                  <button onClick={() => handleEdit(user)} className="bg-blue-300 text-white px-2 py-1 rounded mr-2">
+                    <PencilIcon className="h-5 w-5" />
+                  </button>
+                  <button onClick={() => { setUserIdToDelete(user.id); setShowModal(true); }} className="bg-red-400 text-white px-2 py-1 rounded">
+                    <TrashIcon className="h-5 w-5" />
+                  </button>
+                  <ConfirmDeleteModal show={showModal} onConfirm={handleConfirmDelete} onCancel={handleCancelDelete} />
                 </td>
               </tr>
-            )}
-          </tbody>
-        </table>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" className="p-4 text-black text-center">
+                No users found
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-between items-center mt-4">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className={`px-4 py-2 rounded ${currentPage === 1 ? "bg-gray-300 cursor-not-allowed text-black" : "bg-blue-200 text-black"}`}
+        >
+          Previous
+        </button>
+        <span className="text-black">Page {currentPage} of {totalPages}</span>
+        <button
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className={`px-4 py-2 rounded ${currentPage === totalPages ? "bg-gray-300 cursor-not-allowed text-black" : "bg-blue-200 text-black"}`}
+        >
+          Next
+        </button>
+      </div>
       </div>
 
 
