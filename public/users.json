@@ -1,0 +1,62 @@
+[
+  {
+    "id": 2,
+    "name": "Anita Sharma",
+    "email": "anita.sharma@example.com",
+    "status": "Inactive"
+  },
+  {
+    "id": 3,
+    "name": "Vikram Patel",
+    "email": "vikram.patel@example.com",
+    "status": "Active"
+  },
+  {
+    "id": 5,
+    "name": "Amit Verma",
+    "email": "amit.verma@example.com",
+    "status": "Active"
+  },
+  {
+    "id": 6,
+    "name": "Pooja Reddy",
+    "email": "pooja.reddy@example.com",
+    "status": "Inactive"
+  },
+  {
+    "id": 8,
+    "name": "Sonal Mehta",
+    "email": "sonal.mehta@example.com",
+    "status": "Inactive"
+  },
+  {
+    "id": 10,
+    "name": "Meera Desai",
+    "email": "meera.desai@example.com",
+    "status": "Inactive"
+  },
+  {
+    "id": 11,
+    "name": "Ravi Kumar",
+    "email": "ravi.kumar@example.com",
+    "status": "Active"
+  },
+  {
+    "id": 12,
+    "name": "Neha Singh",
+    "email": "neha.singh@example.com",
+    "status": "Inactive"
+  },
+  {
+    "id": 13,
+    "name": "Manish Gupta",
+    "email": "manish.gupta@example.com",
+    "status": "Active"
+  },
+  {
+    "id": 14,
+    "name": "Karan Joshi",
+    "email": "karan.joshi@example.com",
+    "status": "Active"
+  }
+]
