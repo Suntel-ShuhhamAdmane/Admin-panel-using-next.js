@@ -2,26 +2,27 @@ import fs from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
 
-const parseCSV = (csvText) => {
+const parseCSV = (csvText: string) => {
   const rows = csvText.replace(/\r\n/g, "\n").split("\n").filter(row => row.trim() !== "");
   const headers = rows[0].split(",").map(header => header.replace(/"/g, "").trim());
   
   const requiredHeaders = ["name", "email", "status"];
-  if (!headers.every((header, index) => header === requiredHeaders[index])) {
-    throw new Error("Invalid CSV headers. Required headers: name, email, status");
-  }
+if (!requiredHeaders.every((header) => headers.includes(header))) {
+  throw new Error("Invalid CSV headers. Required headers: name, email, status");
+}
 
-  const data = [];
-  const errors = [];
 
-  rows.slice(1).forEach((row, index) => {
+  const data: { [x: string]: string; }[] = [];
+  const errors: { rowNumber: number; message: string; rowData?: { [x: string]: string; }; }[] = [];
+
+  rows.slice(1).forEach((row: string, index: number) => {
     const columns = row.split(",").map(col => col.replace(/"/g, "").trim());
     if (columns.length !== headers.length) {
       errors.push({ rowNumber: index + 2, message: "Invalid number of columns" });
       return;
     }
 
-    const record = headers.reduce((acc, header, colIndex) => {
+    const record = headers.reduce((acc: { [x: string]: string; }, header: string | number, colIndex: string | number) => {
       acc[header] = columns[colIndex] || "";
       return acc;
     }, {});
@@ -48,7 +49,7 @@ const parseCSV = (csvText) => {
   return { data, errors };
 };
 
-const filterDuplicates = (existingData, newData) => {
+const filterDuplicates = (existingData: any[], newData: any[]) => {
   const existingEmails = new Set(existingData.map(user => user.email));
   const duplicates = newData.filter(user => existingEmails.has(user.email));
   const uniqueRecords = newData.filter(user => !existingEmails.has(user.email));
@@ -82,8 +83,8 @@ export async function POST(req) {
     const existingData = fs.existsSync(filePath) ? JSON.parse(fs.readFileSync(filePath, "utf-8")) : [];
     const { uniqueRecords, duplicates } = filterDuplicates(existingData, newUsers);
 
-    const maxExistingId = existingData.reduce((maxId, user) => (user.id > maxId ? user.id : maxId), 0);
-    const updatedUsers = uniqueRecords.map((user, index) => ({
+    const maxExistingId = existingData.reduce((maxId: number, user: { id: number; }) => (user.id > maxId ? user.id : maxId), 0);
+    const updatedUsers = uniqueRecords.map((user: { name: any; email: any; status: any; }, index: any) => ({
       id: maxExistingId + index + 1,
       name: user.name,
       email: user.email,
@@ -107,3 +108,5 @@ export async function POST(req) {
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
+
+

@@ -1,102 +1,8 @@
-// import { useState, useEffect } from "react";
-// import { BarChart } from "@mui/x-charts/BarChart";
-// import { DataGrid } from "@mui/x-data-grid";
-// import axios from "axios";
-// import SearchComponent from "./SearchComponent";
-
-// interface User {
-//     id: number;
-//     name: string;
-//     email: string;
-//     status: string; 
-// }
-
-// const Table = () => {
-//     const [rows, setRows] = useState<User[]>([]);
-//     const [filteredRows, setFilteredRows] = useState<User[]>([]);
-//     const [searchQuery, setSearchQuery] = useState("");
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState("");
-
-//     const fetchUsers = async () => {
-//         try {
-//             const response = await axios.get<User[]>("/users/api");  
-//             console.log("Fetched Users:", response.data);
-//             setRows(response.data);
-//             setFilteredRows(response.data);  // Initialize filtered rows
-//             setLoading(false);
-//         } catch (error) {
-//             console.error("Error fetching users:", error);
-//             setError("Failed to fetch users.");
-//             setLoading(false);
-//         }
-//     };
-
-//     useEffect(() => {
-//         fetchUsers();
-//     }, []);
-
-//     useEffect(() => {
-//         // Filter rows based on search query
-//         const filtered = rows.filter(user =>
-//             user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-//             user.email.toLowerCase().includes(searchQuery.toLowerCase())
-//         );
-//         setFilteredRows(filtered);
-//     }, [searchQuery, rows]);
-
-//     const columns = [
-//         { field: "id", headerName: "ID", width: 100 },
-//         { field: "name", headerName: "Name", width: 150 },
-//         { field: "email", headerName: "Email", width: 200 },
-//         { field: "status", headerName: "Status", width: 100 },
-//     ];
-
-//     if (loading) return <p className="text-center bg-blue-200 p-4">Loading...</p>;
-//     if (error) return <p className="text-center p-4 text-red-500">{error}</p>;
-
-//     return (
-//         <div className="flex flex-col w-full h-auto">
-//             <SearchComponent searchQuery={searchQuery} setSearchQuery={setSearchQuery}  />
-//             <div className="flex w-full">
-//                 <div className="w-3/5 p-4">
-//                     <DataGrid
-//                         rows={filteredRows}
-//                         columns={columns}
-//                         pageSize={5}
-//                         rowsPerPageOptions={[5]}
-//                     />
-//                 </div>
-//                 <div className="w-2/5 p-4">
-//                     <BarChart
-//                         xAxis={[{ scaleType: "band", data: ["Active", "Inactive"] }]}
-//                         series={[
-//                             {
-//                                 data: [filteredRows.filter(user => user.status.toLowerCase() === "active").length],
-//                                 label: 'Active',
-//                             },
-//                             {
-//                                 data: [filteredRows.filter(user => user.status.toLowerCase() === "inactive").length],
-//                                 label: 'Inactive',
-//                             },
-//                         ]}
-//                         width={400}
-//                         height={300}
-//                     />
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Table;
-
 
 import { useState, useEffect } from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
-import SearchComponent from "./SearchComponent";
 
 interface User {
     id: number;
@@ -162,7 +68,7 @@ const Table = () => {
                             rows={filteredRows}
                             columns={columns}
                             pageSize={5}
-                            rowsPerPageOptions={[5]}
+                            rowsPerPageOptions={[10]}
                             className="border-none"
                             sx={{
                                 '& .MuiDataGrid-cell': {

@@ -52,7 +52,7 @@ const DashboardReadOnly = () => {
 
     return (
         <div className="w-4/5 p-5 ml-64 bg-gray-100 min-h-screen">
-            <div className="fixed top-0 left-1/2 transform -translate-x-1/2 w-1/3 mx-32 text-center pt-2">
+            <div className="fixed ml-10  top-0 left-1/3 transform -translate-x-1/2 w-1/3 mx-32 text-center mr-10 pt-2">
                 <PageSearchComponent />
             </div>
 

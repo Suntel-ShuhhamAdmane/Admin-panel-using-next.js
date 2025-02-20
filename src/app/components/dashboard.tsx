@@ -52,10 +52,10 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchUsers(); // Initial fetch
+    fetchUsers(); // 
 
-    const interval = setInterval(fetchUsers, 5000); // Auto-refresh every 5 seconds
-    return () => clearInterval(interval); // Cleanup interval on unmount
+    const interval = setInterval(fetchUsers, 3000); 
+    return () => clearInterval(interval); 
   }, []);
 
   // Add User
